@@ -24,6 +24,10 @@ def test():
     # print_kwargs: key:pink, value:peach
     print_combine("grape", *lists, **dics)
     #print_combine: fruit:grape, args:('apple', 'banana', 'pear', 'peach'), kwars:{'red': 'apple', 'yellow': 'banana', 'green': 'pear', 'pink': 'peach'}
+    print_combine(**dics)
+#   TypeError: print_combine() missing 1 required positional argument: 'fruit'
+
+
 
 test()
 

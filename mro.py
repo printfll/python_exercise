@@ -4,100 +4,89 @@ class Parent():
         super().__init__()
         print(f"Parent. init {self.name}")
         
-    def level(self):
+    def check(self):
         print(f"Parent. type:{type(self)}")
 
 class Daughter(Parent):
     def __init__(self):
         super().__init__()
-        print(f"Daughter init {self.name}")
-
-    def dance(self):
-        print(f"Daughter. I can dance.")
+        print(f"Daughter. init {self.name}")
+    def check(self):
+        print(f"Daughter. type:{type(self)}")
 
 class Son(Parent):
     def __init__(self):
         super().__init__()
-        print(f"Son init {self.name}")
-    
-    def run(self):
-        print(f"Son. I can run.")
+        print(f"Son. init {self.name}")
+    def check(self):
+        print(f"Son. type:{type(self)}")
 
 class Friend():
     name = "Friend"
-    f_age = 15
     def __init__(self):
         super().__init__()
-        print(f"Friend init {self.name}.")
+        print(f"Friend. init {self.name}.")
 
-    def level(self):
+    def check(self):
         print(f"Friend. type:{type(self)}")
-    
-    def hi(self):
-        self.f_age += 1
-        print(f"Friend. say hi to {self.f_age}")
 
 class Me(Daughter, Friend):
     def __init__(self, name):
         super().__init__()
         self.name = name
         self.my_name = name
-        print(f"Me init {self.name}")
+        print(f"Me. init {self.name}")
 
-class AnotherMe(Daughter, Friend):
+class AnotherMe(Friend, Son):
     def __init__(self, name):
         self.name = name
         super().__init__()
-        print(f"Me init {self.name}")
+        print(f"AnotherMe. init {self.name}")
 
 class You(Daughter, Son):
     name = ""
     def __init__(self, name):
         super().__init__()
         self.name = name
-        print(f"You init {self.name}.")
+        print(f"You. init {self.name}.")
 
 def test():
     print("Init Me")
     me = Me("me")
-    me.level()
-    me.hi()
+    me.check()
     print(Me.__mro__)
     '''
-    Friend init Parent.
+    Friend. init Parent.
     Parent. init Parent
-    Daughter init Parent
-    Me init me
-    Parent. type:<class '__main__.Me'>
-    Friend. say hi to 16
+    Daughter. init Parent
+    Me. init me
+    Daughter. type:<class '__main__.Me'>
     (<class '__main__.Me'>, <class '__main__.Daughter'>, <class '__main__.Parent'>, <class '__main__.Friend'>, <class 'object'>)
     '''
 
     print("\nInit AnotherMe")
-    me = AnotherMe("another_me")
-    me.level()
-    me.hi()
-    print(Me.__mro__)
+    another_me = AnotherMe("another_me")
+    another_me.check()
+    print(AnotherMe.__mro__)
     '''
-    Friend init another_me.
     Parent. init another_me
-    Daughter init another_me
-    Me init another_me
-    Parent. type:<class '__main__.AnotherMe'>
-    Friend. say hi to 16    
-    (<class '__main__.Me'>, <class '__main__.Daughter'>, <class '__main__.Parent'>, <class '__main__.Friend'>, <class 'object'>)
+    Son. init another_me
+    Friend. init another_me.
+    AnotherMe. init another_me
+    Friend. type:<class '__main__.AnotherMe'>
+    (<class '__main__.AnotherMe'>, <class '__main__.Friend'>, <class '__main__.Son'>, <class '__main__.Parent'>, <class 'object'>)
     '''
 
     print("\nInit You")
     you = You("you")
-    you.level()
+    you.check()
     print(You.__mro__)
     '''
     Parent. init
-    Son init
-    Daughter init
-    You init you.
-    Parent. type:<class '__main__.You'>
+    Son. init
+    Daughter. init
+    You. init you.
+    Daughter. type:<class '__main__.You'>
     (<class '__main__.You'>, <class '__main__.Daughter'>, <class '__main__.Son'>, <class '__main__.Parent'>, <class 'object'>)
     '''
 test()
@@ -106,4 +95,4 @@ test()
 #exhausted and confused
 #In Init Me case, if remove super().__init__() in Parent init, it wont't run Friend init
 #In Init You case, don't know why Parent init without name???
-#when call level(), python use dfs to find the function
+#when call check(), python use dfs to find the function
