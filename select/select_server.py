@@ -2,6 +2,7 @@ import select
 import socket
 import sys
 import queue
+import pipes
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.setblocking(0)
@@ -47,7 +48,7 @@ while inputs:
                     outputs.remove(s)
                 inputs.remove(s)
                 s.close()
-                Remove message queue
+                # Remove message queue
                 message_queues.pop(s, None)
 
     # Handle outputs
