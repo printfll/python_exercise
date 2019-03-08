@@ -23,10 +23,5 @@ def output_files(files):
         if not find: 
             result.add(file_name) 
     return result 
- 
-
-input = {"/etc/folder1/a":True, "/etc/folder1/b":False,  
-
-"/tmp/folder1/a":True, "/tmp/folder1/b":True, "/tmp/folder2/c":True} 
-
+input = {"/etc/folder1/a":True, "/etc/folder1/b":False, "/tmp/folder1/a":True, "/tmp/folder1/b":True, "/tmp/folder2/c":True} 
 print(output_files(input)) 
