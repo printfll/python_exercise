@@ -2,36 +2,38 @@ import sys
 def distance(user, bike):
     return abs(user[0]-bike[0])+abs(user[1]-bike[1])
     
-def allocate(bike_pos, user_pos, my_pos):
-    total_dis = {}
-    for i, u in enumerate(user_pos):
+def allocate(bike_pos, other_user_pos, my_pos):
+    total_dis = []
+    for u in other_user_pos:
         dis = []
         for j, b in enumerate(bike_pos):
             d = distance(u, b)
             dis.append([d, j])
         dis.sort(key=lambda x:x[0])
-        total_dis[i] = dis
-    
-    my_dis = []
-    for j, b in enumerate(bike_pos):
-        d = distance(my_pos, b)
-        my_dis.append([d, j])
-    my_dis.sort(key=lambda x:x[0])
+        total_dis.append(dis)
     
     used_bike = set()
-    for dis in my_dis:
-        bike_id, bike_dis = dis[1], dis[0]
-        while total_dis:
-            min_user, min_dis, min_bike = 0, sys.maxsize, 0
-            for user, dis_row in total_dis.items():
-                if dis_row[0][0]<min_dis:
-                    min_user = user
-                    min_dis = dis_row[0][0]
-                    min_bike = dis_row[0][1]
-            if min_bike == bike_id:
-            used_bike.add(min_bike)
-            total_dis.pop(min_user)
+    while total_dis:
+        min_bike_id, min_dis, user_id = -1, sys.maxsize, -1
+        for u, dis_list in enumerate(total_dis):
+            while dis_list and dis_list[0][1] in used_bike:
+                dis_list.pop(0)
+            if dis_list and dis_list[0][0]<min_dis:
+                min_dis = dis_list[0][0]
+                min_bike_id = dis_list[0][1]
+                user_id = u
+        if min_bike_id>=0:
+            total_dis.pop(user_id)
+            used_bike.add(min_bike_id)
+    
+    if len(used_bike)<len(bike_pos):
+        min_bike_id, min_dis = -1, sys.maxsize
+        for j, b in enumerate(bike_pos):
+            if j not in used_bike:
+                d = distance(my_pos, b)
+                if d<min_dis:
+                    min_bike_id, min_dis = j, d
+        return j
     return -1
 
-bikes = [[0,0],[2,4],[3,3],[]]
     
